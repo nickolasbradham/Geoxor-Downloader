@@ -7,6 +7,8 @@ import java.net.URL;
 import java.nio.channels.Channels;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 import org.jsoup.Jsoup;
 
 /**
@@ -15,7 +17,7 @@ import org.jsoup.Jsoup;
  * @author Nickolas S. Bradham
  *
  */
-final class Downloader {
+public final class Downloader {
 
 	private static final File OUT_DIR = new File("Downloads");
 	private final String[] urls;
@@ -35,7 +37,7 @@ final class Downloader {
 						"rounded-full flex items-center gap-2 border-2 border-accent select-none bg-accent h-min text-white px-4 py-2")
 						.get(0).attr("href")));
 
-		urls = tmp.toArray(new String[tmp.size()]);
+		urls = tmp.toArray(new String[0]);
 	}
 
 	/**
@@ -83,6 +85,8 @@ final class Downloader {
 
 					} catch (IOException e1) {
 						e1.printStackTrace();
+						JOptionPane.showMessageDialog(null, "Error downloading: " + url + "\n" + e1, "Error occured.",
+								JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			});
@@ -93,7 +97,7 @@ final class Downloader {
 		for (Thread t : threads)
 			t.join();
 
-		System.out.println("Done.");
+		JOptionPane.showMessageDialog(null, "Successfully downloaded all songs.");
 	}
 
 	/**
