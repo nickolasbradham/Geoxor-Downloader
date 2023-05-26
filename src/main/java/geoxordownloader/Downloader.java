@@ -26,16 +26,17 @@ public final class Downloader {
 	/**
 	 * Constructs a new Downloader and retrieves all file URLs from site.
 	 * 
+	 * @param src
+	 * 
 	 * @throws IOException Thrown by {@link org.jsoup.Connection#get()}.
 	 */
-	private Downloader() throws IOException {
+	private Downloader(String src) throws IOException {
 
 		ArrayList<String> tmp = new ArrayList<>();
 
-		Jsoup.connect("https://beta.geoxor.moe/downloads/songs").get().getElementsByClass("flex flex-col")
-				.forEach(e -> tmp.add(e.getElementsByClass(
-						"rounded-full flex items-center gap-2 border-2 border-accent select-none bg-accent h-min text-white px-4 py-2")
-						.get(0).attr("href")));
+		Jsoup.parse(src).getElementsByClass("flex flex-col").forEach(e -> tmp.add(e.getElementsByClass(
+				"rounded-full flex items-center gap-2 border-2 border-accent select-none bg-accent h-min text-white px-4 py-2")
+				.get(0).attr("href")));
 
 		urls = tmp.toArray(new String[0]);
 	}
@@ -108,6 +109,6 @@ public final class Downloader {
 	 * @throws InterruptedException Thrown by {@link #start()}.
 	 */
 	public static void main(String[] args) throws IOException, InterruptedException {
-		new Downloader().start();
+		new Downloader(JOptionPane.showInputDialog("Paste page sourcecode here:")).start();
 	}
 }
