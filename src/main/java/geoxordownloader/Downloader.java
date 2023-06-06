@@ -1,8 +1,11 @@
 package geoxordownloader;
 
+import java.awt.Desktop;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.util.ArrayList;
@@ -107,8 +110,12 @@ public final class Downloader {
 	 * @param args Ignored.
 	 * @throws IOException          Thrown by {@link #Downloader()}.
 	 * @throws InterruptedException Thrown by {@link #start()}.
+	 * @throws URISyntaxException   Thrown by {@link URI#URI(String)}.
 	 */
-	public static void main(String[] args) throws IOException, InterruptedException {
-		new Downloader(JOptionPane.showInputDialog("Paste page sourcecode here:")).start();
+	public static void main(String[] args) throws IOException, InterruptedException, URISyntaxException {
+		Desktop.getDesktop().browse(new URI("https://beta.geoxor.moe/downloads/songs"));
+		String src = JOptionPane.showInputDialog("Paste page sourcecode here:");
+		if (src != null)
+			new Downloader(src).start();
 	}
 }
